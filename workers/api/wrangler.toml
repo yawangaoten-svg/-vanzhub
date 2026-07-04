@@ -1,0 +1,31 @@
+name = "vanzhub-api"
+main = "src/index.ts"
+compatibility_date = "2025-04-01"
+compatibility_flags = ["nodejs_compat"]
+
+[build]
+command = "npm run build"
+watch_dir = "src"
+
+# [[r2_buckets]]
+# binding = "R2_BUCKET"
+# bucket_name = "vanzhub-uploads"
+# Enable R2 at: https://dash.cloudflare.com > R2 > Enable
+# Then uncomment above and run: wrangler r2 bucket create vanzhub-uploads
+
+[durable_objects]
+bindings = [
+  { name = "WEBSOCKET_DO", class_name = "WebSocketDO" }
+]
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["WebSocketDO"]
+
+# Optional: Custom domain (buy a domain or use workers.dev)
+# routes = [
+#   { pattern = "api.yourdomain.com", custom_domain = true }
+# ]
+
+[env.production]
+vars = { NODE_ENV = "production" }

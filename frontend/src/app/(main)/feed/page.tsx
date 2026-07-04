@@ -48,6 +48,7 @@ export default function FeedPage() {
 
   useEffect(() => {
     const socket = getSocket();
+    if (!socket) return;
     socket.on('post:reacted', (data: { postId: string; userId: string; type: string }) => {
       setPosts(prev => prev.map(p =>
         p.id === data.postId ? { ...p, _count: { ...p._count, reactions: p._count.reactions + 1 } } : p
